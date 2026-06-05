@@ -4,7 +4,7 @@ import { Link } from 'react-router-dom';
 import TeamCard, { teamMembers } from '../components/TeamCard';
 
 export default function TeamPage() {
-  // Figma'daki dikey mobil akış sırasını yakalamak için veriyi sütun bazlı grupluyoruz
+  
   const column1 = [teamMembers[0], teamMembers[1], teamMembers[2]]; // Sol Sütun
   const column2 = [teamMembers[3], teamMembers[4], teamMembers[5]]; // Orta Sütun
   const column3 = [teamMembers[6], teamMembers[7], teamMembers[8]]; // Sağ Sütun
