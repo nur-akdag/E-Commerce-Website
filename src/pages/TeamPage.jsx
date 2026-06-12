@@ -53,7 +53,7 @@ export default function TeamPage() {
             </p>
           </div>
 
-          {/* Sadece Flexbox ile 3 Sütunlu Grid-Like Yapı (Mobilde kusursuz sıralı akar) */}
+          
           <div className="w-full flex flex-col md:flex-row justify-between items-start gap-12 md:gap-6">
             
             {/* Sütun 1 */}

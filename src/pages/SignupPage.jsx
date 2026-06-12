@@ -1,14 +1,15 @@
 import React, { useState, useEffect } from 'react';
 import { useForm } from 'react-hook-form';
 import { useNavigate } from 'react-router-dom';
-import { api } from '../api/api';
+import { api } from '../api/axiosInstance';
 import { Loader2 } from 'lucide-react';
+import { toast } from 'react-toastify';
 
 export default function SignupPage() {
   const [roles, setRoles] = useState([]);
   const [serverError, setServerError] = useState(null);
   const [loadingRoles, setLoadingRoles] = useState(true);
-  
+
   const navigate = useNavigate();
 
   const {
@@ -17,25 +18,20 @@ export default function SignupPage() {
     watch,
     setValue,
     formState: { errors, isSubmitting }
-  } = useForm({
-    mode: 'onChange'
-  });
+  } = useForm({ mode: 'onChange' });
 
-  // Seçilen rolü anlık takip etmek için watch kullanıyoruz
   const watchRoleId = watch('role_id');
-
-  // Seçilen rolün "Store" (Mağaza) olup olmadığını kontrol eden mantık
   const selectedRoleObj = roles.find(r => r.id === Number(watchRoleId));
   const isStoreSelected = selectedRoleObj?.code?.toLowerCase() === 'store';
 
-  // 1. Rolleri Backend'den Çekme ve Customer'ı Default Yapma
   useEffect(() => {
-    api.get('/roles')
+    
+    api.get('/roles', { headers: { Authorization: undefined } })
       .then((res) => {
         setRoles(res.data);
-        // "customer" koduna sahip rolü bulup varsayılan seçiyoruz
         const customerRole = res.data.find(r => r.code?.toLowerCase() === 'customer');
         if (customerRole) {
+          
           setValue('role_id', String(customerRole.id));
         }
         setLoadingRoles(false);
@@ -46,11 +42,9 @@ export default function SignupPage() {
       });
   }, [setValue]);
 
-  // 2. Form Gönderme Aşaması (Payload Temizliği)
   const onSubmit = async (data) => {
     setServerError(null);
 
-    // Ana veri kalıbı (Customer & Admin)
     let payload = {
       name: data.name,
       email: data.email,
@@ -58,7 +52,6 @@ export default function SignupPage() {
       role_id: Number(data.role_id)
     };
 
-    // Eğer rol Store ise, tam istenen formatta "store" objesini içe gömüyoruz
     if (isStoreSelected) {
       payload.store = {
         name: data.storeName,
@@ -69,14 +62,18 @@ export default function SignupPage() {
     }
 
     try {
-      await api.post('/signup', payload);
       
-      // Başarılı senaryo: Uyarı ver ve önceki sayfaya yönlendir
-      alert('You need to click link in email to activate your account!');
+      await api.post('/signup', payload, {
+        headers: { Authorization: undefined }
+      });
+
+      toast.success('You need to click link in email to activate your account!');
       navigate(-1);
     } catch (error) {
-      // Başarısız senaryo: Hatayı yakala ve form sayfasında göster
-      const msg = error.response?.data?.message || 'Something went wrong. Please check your data.';
+      console.error('Signup hatası:', error.response?.data);
+      const msg =
+        error.response?.data?.message ||
+        'Something went wrong. Please check your data.';
       setServerError(msg);
     }
   };
@@ -84,11 +81,14 @@ export default function SignupPage() {
   return (
     <div className="w-full min-h-screen bg-[#FAFAFA] flex flex-col items-center justify-center py-12 px-4">
       <div className="w-full max-w-[460px] bg-white rounded-lg shadow-sm border border-[#ECECEC] p-8 flex flex-col">
-        
-        <h2 className="text-[28px] font-bold text-[#252B42] text-center mb-2 tracking-tight">Sign Up</h2>
-        <p className="text-[14px] text-[#737373] text-center mb-8 font-medium">Create a new account to join us</p>
 
-        {/* Backend Hata Paneli */}
+        <h2 className="text-[28px] font-bold text-[#252B42] text-center mb-2 tracking-tight">
+          Sign Up
+        </h2>
+        <p className="text-[14px] text-[#737373] text-center mb-8 font-medium">
+          Create a new account to join us
+        </p>
+
         {serverError && (
           <div className="bg-[#FFEBEB] text-[#E74C3C] text-[14px] font-bold p-4 rounded-md mb-6 text-center border border-[#FADBD8]">
             {serverError}
@@ -96,8 +96,8 @@ export default function SignupPage() {
         )}
 
         <form onSubmit={handleSubmit(onSubmit)} className="flex flex-col gap-5">
-          
-          {/* Name Field */}
+
+          {/* Name */}
           <div className="flex flex-col gap-1.5">
             <label className="text-[14px] font-bold text-[#252B42]">Name *</label>
             <input
@@ -109,10 +109,12 @@ export default function SignupPage() {
                 minLength: { value: 3, message: 'Name must be at least 3 characters' }
               })}
             />
-            {errors.name && <span className="text-[#E74C3C] text-[12px] font-semibold">{errors.name.message}</span>}
+            {errors.name && (
+              <span className="text-[#E74C3C] text-[12px] font-semibold">{errors.name.message}</span>
+            )}
           </div>
 
-          {/* Email Field */}
+          {/* Email */}
           <div className="flex flex-col gap-1.5">
             <label className="text-[14px] font-bold text-[#252B42]">Email *</label>
             <input
@@ -127,10 +129,12 @@ export default function SignupPage() {
                 }
               })}
             />
-            {errors.email && <span className="text-[#E74C3C] text-[12px] font-semibold">{errors.email.message}</span>}
+            {errors.email && (
+              <span className="text-[#E74C3C] text-[12px] font-semibold">{errors.email.message}</span>
+            )}
           </div>
 
-          {/* Password Field */}
+          {/* Password */}
           <div className="flex flex-col gap-1.5">
             <label className="text-[14px] font-bold text-[#252B42]">Password *</label>
             <input
@@ -146,10 +150,12 @@ export default function SignupPage() {
                 }
               })}
             />
-            {errors.password && <span className="text-[#E74C3C] text-[12px] font-semibold">{errors.password.message}</span>}
+            {errors.password && (
+              <span className="text-[#E74C3C] text-[12px] font-semibold">{errors.password.message}</span>
+            )}
           </div>
 
-          {/* Password Confirm Field */}
+          {/* Confirm Password */}
           <div className="flex flex-col gap-1.5">
             <label className="text-[14px] font-bold text-[#252B42]">Confirm Password *</label>
             <input
@@ -161,10 +167,12 @@ export default function SignupPage() {
                 validate: (value) => value === watch('password') || 'Passwords do not match'
               })}
             />
-            {errors.confirmPassword && <span className="text-[#E74C3C] text-[12px] font-semibold">{errors.confirmPassword.message}</span>}
+            {errors.confirmPassword && (
+              <span className="text-[#E74C3C] text-[12px] font-semibold">{errors.confirmPassword.message}</span>
+            )}
           </div>
 
-          {/* Role Selection Box */}
+          {/* Role */}
           <div className="flex flex-col gap-1.5">
             <label className="text-[14px] font-bold text-[#252B42]">Role *</label>
             {loadingRoles ? (
@@ -183,12 +191,11 @@ export default function SignupPage() {
             )}
           </div>
 
-          {/* ================= MAĞAZA ÖZEL ALANLARI (CONDITIONAL) ================= */}
+          {/* Store Fields (conditional) */}
           {isStoreSelected && (
-            <div className="flex flex-col gap-5 border-t border-[#ECECEC] pt-5 mt-2 transition-all duration-300">
+            <div className="flex flex-col gap-5 border-t border-[#ECECEC] pt-5 mt-2">
               <h3 className="text-[16px] font-bold text-[#23A6F0]">Store Details</h3>
 
-              {/* Store Name */}
               <div className="flex flex-col gap-1.5">
                 <label className="text-[14px] font-bold text-[#252B42]">Store Name *</label>
                 <input
@@ -200,10 +207,11 @@ export default function SignupPage() {
                     minLength: { value: 3, message: 'Store Name must be at least 3 characters' }
                   })}
                 />
-                {errors.storeName && <span className="text-[#E74C3C] text-[12px] font-semibold">{errors.storeName.message}</span>}
+                {errors.storeName && (
+                  <span className="text-[#E74C3C] text-[12px] font-semibold">{errors.storeName.message}</span>
+                )}
               </div>
 
-              {/* Store Phone */}
               <div className="flex flex-col gap-1.5">
                 <label className="text-[14px] font-bold text-[#252B42]">Store Phone *</label>
                 <input
@@ -218,10 +226,11 @@ export default function SignupPage() {
                     }
                   })}
                 />
-                {errors.storePhone && <span className="text-[#E74C3C] text-[12px] font-semibold">{errors.storePhone.message}</span>}
+                {errors.storePhone && (
+                  <span className="text-[#E74C3C] text-[12px] font-semibold">{errors.storePhone.message}</span>
+                )}
               </div>
 
-              {/* Store Tax ID */}
               <div className="flex flex-col gap-1.5">
                 <label className="text-[14px] font-bold text-[#252B42]">Store Tax ID *</label>
                 <input
@@ -236,10 +245,11 @@ export default function SignupPage() {
                     }
                   })}
                 />
-                {errors.storeTaxNo && <span className="text-[#E74C3C] text-[12px] font-semibold">{errors.storeTaxNo.message}</span>}
+                {errors.storeTaxNo && (
+                  <span className="text-[#E74C3C] text-[12px] font-semibold">{errors.storeTaxNo.message}</span>
+                )}
               </div>
 
-              {/* Store Bank Account (IBAN) */}
               <div className="flex flex-col gap-1.5">
                 <label className="text-[14px] font-bold text-[#252B42]">Store Bank Account (IBAN) *</label>
                 <input
@@ -254,12 +264,14 @@ export default function SignupPage() {
                     }
                   })}
                 />
-                {errors.storeBankAccount && <span className="text-[#E74C3C] text-[12px] font-semibold">{errors.storeBankAccount.message}</span>}
+                {errors.storeBankAccount && (
+                  <span className="text-[#E74C3C] text-[12px] font-semibold">{errors.storeBankAccount.message}</span>
+                )}
               </div>
             </div>
           )}
 
-          {/* Submit Button & Spinner */}
+          {/* Submit */}
           <button
             type="submit"
             disabled={isSubmitting}

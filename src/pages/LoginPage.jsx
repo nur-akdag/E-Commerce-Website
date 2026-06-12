@@ -3,7 +3,7 @@ import { useForm } from 'react-hook-form';
 import { useDispatch } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
 import { Loader2 } from 'lucide-react';
-import { loginUserAction } from '../store/actions/clientActions';
+import { loginUserAction } from '../store/actions/clientActions'; 
 
 export default function LoginPage() {
   const dispatch = useDispatch();
@@ -19,17 +19,14 @@ export default function LoginPage() {
     }
   });
 
-  const onSubmit = async (data) => {
-    
-    try {
-      await dispatch(loginUserAction(
-        { email: data.email, password: data.password }, 
-        data.rememberMe, 
-        navigate
-      ));
-    } catch (error) {
-      
-    }
+  
+  const onSubmit = (data) => {
+    const credentials = {
+      email: data.email,
+      password: data.password
+    };
+
+    dispatch(loginUserAction(credentials, data.rememberMe, navigate));
   };
 
   return (

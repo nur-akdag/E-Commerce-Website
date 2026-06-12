@@ -1,7 +1,6 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
 import { Play } from 'lucide-react'; 
-// Ortak kart bileşeni ve veri havuzu import edildi
 import TeamCard, { teamMembers } from '../components/TeamCard';
 
 import hooliLogo from '../assets/client-logos/hooli.png';
@@ -10,6 +9,7 @@ import stripeLogo from '../assets/client-logos/stripe.png';
 import robinhoodLogo from '../assets/client-logos/robinhood.png';
 import awsLogo from '../assets/client-logos/aws.png';
 import redditLogo from '../assets/client-logos/reddit.png';
+import videoImage from '../assets/video-image.png';
 
 export default function AboutPage() {
   return (
@@ -34,17 +34,19 @@ export default function AboutPage() {
           </button>
         </div>
 
-        {/* Sağ Taraf: Alışveriş Yapan Kadın Görseli & Arka Plan Yuvarlağı */}
+        {/* Sağ Taraf: Görsel & Arka Plan Daire */}
         <div className="w-full md:w-1/2 flex justify-center relative">
           {/* Fonda Duran Pembe Büyük Daire */}
           <div className="absolute w-[280px] h-[280px] md:w-[440px] md:h-[440px] bg-[#FFEBEB] rounded-full top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 z-0"></div>
           {/* Ufak Süs Daireleri */}
-          <div className="absolute w-4 h-4 bg-[#9B84EE] rounded-full top-4 left-[15%] z-10"></div>
-          <div className="absolute w-2 h-2 bg-[#9B84EE] rounded-full bottom-12 right-[10%] z-10"></div>
+          <div className="absolute w-14 h-14 bg-[#FFEBEB] rounded-full top-10 left-[3%] z-10"></div>
+          <div className="absolute w-2 h-2 bg-[#9B84EE] rounded-full top-40 right-[1%] z-10"></div>
+          <div className="absolute w-2 h-2 bg-[#9B84EE] rounded-full bottom-25 left-[7%] z-10"></div>
+          <div className="absolute w-5 h-5 bg-[#FFEBEB] rounded-full bottom-60 right-[2%] z-10"></div>
 
           {/* Ana Görsel */}
           <img 
-            src="https://images.unsplash.com/photo-1542838132-92c53300491e?q=80&w=600" 
+            src="src/assets/aboutus.png"
             alt="About Us Hero" 
             className="relative z-20 w-full max-w-[350px] md:max-w-[450px] object-contain"
           />
@@ -98,19 +100,22 @@ export default function AboutPage() {
 
       {/* ================= SECTION 4: VIDEO BANNER ================= */}
       <section className="w-full max-w-[1050px] mx-auto px-8 md:px-0 py-8">
-        <div className="w-full aspect-[16/9] bg-gray-200 rounded-[20px] overflow-hidden relative flex items-center justify-center group shadow-md">
-          <img 
-            src="https://images.unsplash.com/photo-1507525428034-b723cf961d3e?q=80&w=1200" 
-            alt="Video Background" 
-            className="absolute inset-0 w-full h-full object-cover group-hover:scale-102 transition-transform duration-700"
-          />
-          {/* Karartma Katmanı */}
-          <div className="absolute inset-0 bg-black/10"></div>
+        <div className="w-full aspect-[16/9] bg-gray-900 rounded-[20px] overflow-hidden relative shadow-md">
           
-          {/* Mavi Oynatma Butonu */}
-          <button className="relative z-10 w-[76px] h-[76px] bg-[#23A6F0] rounded-full flex items-center justify-center text-white shadow-lg hover:scale-110 transition-transform cursor-pointer">
-            <Play size={28} fill="currentColor" className="ml-1" />
-          </button>
+          <video 
+            className="w-full h-full object-cover"
+            poster= {videoImage}
+            controls
+            playsInline
+            autoPlay muted loop
+          >
+            <source 
+              src="src/assets/video.mp4"
+              type="video/mp4" 
+            />
+            Tarayıcınız video etiketini desteklemiyor.
+          </video>
+
         </div>
       </section>
 

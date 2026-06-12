@@ -37,3 +37,19 @@ export const fetchProductsAction = (params = {}) => async (dispatch) => {
     dispatch(setFetchState('FAILED'));
   }
 };
+
+  export const setProductDetail = (product) => ({ type: 'SET_PRODUCT_DETAIL', payload: product });
+  export const setDetailFetchState = (state) => ({ type: 'SET_DETAIL_FETCH_STATE', payload: state });
+
+
+  export const fetchProductDetailAction = (productId) => async (dispatch) => {
+    dispatch(setDetailFetchState('FETCHING'));
+    try {
+      const response = await api.get(`/products/${productId}`);
+      dispatch(setProductDetail(response.data));
+      dispatch(setDetailFetchState('FETCHED'));
+    } catch (error) {
+      console.error('Product detail fetch error:', error);
+      dispatch(setDetailFetchState('FAILED'));
+    }
+  };

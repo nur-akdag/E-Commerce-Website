@@ -45,7 +45,7 @@ export default function TeamCard({ member, variant = 'vertical' }) {
     );
   }
 
-  // ================= DİKEY TASARIM (AboutPage İçin Aynen Korundu) =================
+  // ================= DİKEY TASARIM =================
   return (
     <div className="w-[310px] h-[400px] md:w-[316px] md:h-auto flex flex-col items-center bg-white rounded-sm overflow-hidden">
       <div className="w-full h-[260px] md:h-[230px] overflow-hidden mb-6 bg-[#FAFAFA]">

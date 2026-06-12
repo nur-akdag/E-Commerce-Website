@@ -26,5 +26,9 @@ export const productReducer = (state = initialState, action) => {
       return { ...state, filter: action.payload };
     default:
       return state;
+    case 'SET_PRODUCT_DETAIL':
+      return { ...state, productDetail: action.payload };
+    case 'SET_DETAIL_FETCH_STATE':
+      return { ...state, detailFetchState: action.payload };
   }
 };

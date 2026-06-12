@@ -1,16 +1,49 @@
-# React + Vite
+🛒  E-Commerce Website
+English | Türkçe
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+English
+📝 About The Project
+E-Commerce Website is a modern, fully responsive e-commerce web application. It provides users with a seamless shopping experience, including product browsing, detailed product views, secure cart management, and a streamlined checkout process.
 
-Currently, two official plugins are available:
+✨ Key Features
+User Authentication: Secure login and registration with protected routing.
+Product Catalog: Advanced filtering, sorting, and search functionalities.
+Shopping Cart: Dynamic cart state management (Add, remove, update quantities).
+Checkout & Payment: Step-by-step secure checkout process with simulated/real payment gateway integration.
+Order Management: Users can view past orders and account details.
+Responsive Design: Mobile-first approach ensuring a perfect view on all devices.
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Oxc](https://oxc.rs)
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/)
+💻 Tech Stack
+* **Frontend:** React.js, Redux Toolkit, Tailwind CSS, React Router DOM
+* **API / Backend:** Workintech E-Commerce API (External RESTful API)
+* **Form Handling:** React Hook Form
+* **HTTP Client:** Axios
+* **Notifications:** React Toastify
+* **React Slider:** Swiper
+* **Icon Library:** Lucide-React
 
-## React Compiler
 
-The React Compiler is not enabled on this template because of its impact on dev & build performances. To add it, see [this documentation](https://react.dev/learn/react-compiler/installation).
 
-## Expanding the ESLint configuration
+🛒 E-Ticaret Web Sitesi
+English | Türkçe
 
-If you are developing a production application, we recommend using TypeScript with type-aware lint rules enabled. Check out the [TS template](https://github.com/vitejs/vite/tree/main/packages/create-vite/template-react-ts) for information on how to integrate TypeScript and [`typescript-eslint`](https://typescript-eslint.io) in your project.
+Türkçe
+📝 Proje Hakkında
+E-Ticaret Web Sitesi, modern ve tamamen duyarlı (responsive) bir e-ticaret web uygulamasıdır. Kullanıcılara ürün inceleme, detaylı ürün görünümleri, güvenli sepet yönetimi ve akıcı bir ödeme süreci dahil olmak üzere kesintisiz bir alışveriş deneyimi sunar.
+
+✨ Temel Özellikler
+Kullanıcı Kimlik Doğrulaması: Korumalı yönlendirmeler (protected routes) ile güvenli giriş ve kayıt işlemleri.
+Ürün Kataloğu: Gelişmiş filtreleme, sıralama ve arama özellikleri.
+Alışveriş Sepeti: Dinamik sepet durumu yönetimi (Ürün ekleme, çıkarma, miktar güncelleme).
+Sipariş ve Ödeme: Simüle edilmiş/gerçek ödeme altyapısı entegrasyonu ile adım adım güvenli sipariş süreci.
+Sipariş Yönetimi: Kullanıcıların geçmiş siparişlerini ve hesap detaylarını görüntüleyebilmesi.
+Duyarlı Tasarım: Tüm cihazlarda kusursuz bir görünüm sağlayan "mobile-first" (önce mobil) yaklaşımı.
+
+💻 Kullanılan Teknolojiler
+Frontend: React.js, Redux Toolkit, Tailwind CSS, React Router DOM
+API / Backend: Workintech E-Ticaret API (Harici RESTful API)
+Form Yönetimi: React Hook Form
+HTTP İstemcisi: Axios
+Bildirimler: React Toastify
+React Slider: Swiper
+İkon Kütüphanesi: Lucide-React

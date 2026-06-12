@@ -27,8 +27,8 @@ export const loginUserAction = (credentials, rememberMe, navigate) => async (dis
     }
    
     api.defaults.headers.common['Authorization'] = user.token;
-
     dispatch(setUser(user));
+    
     toast.success('Login successful! Redirecting...');
 
     setTimeout(() => {

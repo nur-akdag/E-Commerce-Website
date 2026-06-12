@@ -17,18 +17,28 @@ import TeamPage from './pages/TeamPage';
 import AboutPage from './pages/AboutUs';
 import SignupPage from './pages/SignupPage';
 import LoginPage from './pages/LoginPage';
-
+import CartPage from './pages/CartPage';
+import { ProtectedRoute } from './components/ProtectedRoute';
+import AddressPage from './pages/AddressPage';
+import PaymentPage from './pages/PaymentPage';
+import PreviousOrdersPage from './pages/PreviousOrdersPage';
 
 export default function App() {
   const dispatch = useDispatch();
   
   useEffect(() => {
-    dispatch(verifyTokenAction());
     dispatch(fetchCategoriesAction());
   }, [dispatch]);
 
+  useEffect(() => {
+  const token = localStorage.getItem('token');
+  if (token) {
+    dispatch(verifyTokenAction()); 
+  }
+}, [dispatch]);
+
   return (
-    <div className="min-h-screen flex flex-col justify-between bg-white text-[#252B42]">
+    <div className="App min-h-screen flex flex-col justify-between bg-white text-[#252B42]">
       
       <Header />
       
@@ -37,17 +47,42 @@ export default function App() {
           <Route path="/" element={<HomePage />} />
           <Route path="/shop" element={<ShopPage />} />
           <Route path="/shop/:gender/:categoryName/:categoryId" element={<ShopPage />} />
-          <Route path="/product/:id" element={<ProductDetailPage />} />
+          <Route path="/shop/:gender/:categoryName/:categoryId/:productNameSlug/:productId" element={<ProductDetailPage />} />
           <Route path="/contact" element={<ContactPage />} />
           <Route path="/team" element={<TeamPage />} />
           <Route path="/about" element={<AboutPage />} />
           <Route path="/signup" element={<SignupPage />} />
           <Route path="/login" element={<LoginPage />} />
+          <Route path="/cart" element={<CartPage />} />
+          <Route 
+            path="/address" 
+            element={
+              <ProtectedRoute>
+                <AddressPage />
+              </ProtectedRoute>
+            } 
+          />
+          <Route 
+            path="/payment" 
+            element={
+              <ProtectedRoute>
+                <PaymentPage />
+              </ProtectedRoute>
+            } 
+          />
+          <Route 
+            path="/orders" 
+            element={
+              <ProtectedRoute>
+                <PreviousOrdersPage />
+              </ProtectedRoute>
+            } 
+          />
         </Routes>
       </main>
     
       <Footer />
-      <ToastContainer position="top-right" autoClose={3000} />
+      <ToastContainer position="top-right" autoClose={3000} style={{ zIndex: 9999 }} />
 
     </div>
   );

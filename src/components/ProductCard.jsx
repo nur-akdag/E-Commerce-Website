@@ -1,19 +1,38 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
+import { useSelector } from 'react-redux';
 
 export default function ProductCard({ product, textAlign = "center" }) {
+
+  const categories = useSelector(state => state.product.categories);
+
   if (!product) return null;
 
-  
   const isLeft = textAlign === "left";
   const alignClass = isLeft ? "text-left" : "text-center";
   const justifyClass = isLeft ? "justify-start" : "justify-center";
-  
-  
   const textPaddingClass = isLeft ? "pl-[25px] md:pl-0 pr-[25px] md:pr-0" : "";
 
+  
+  const slugify = (text) => text.toString().toLowerCase()
+    .replace(/ğ/g, 'g').replace(/ü/g, 'u').replace(/ş/g, 's')
+    .replace(/ı/g, 'i').replace(/ö/g, 'o').replace(/ç/g, 'c')
+    .replace(/\s+/g, '-').replace(/[^\w\-]+/g, '').replace(/\-\-+/g, '-');
+  
+  const slug = slugify(product.title || 'product');
+
+ 
+  const catId = product.category_id || 1; 
+  const cat = categories?.find(c => c.id === catId);
+  const gender = cat?.gender === 'e' ? 'erkek' : 'kadin';
+  const catName = cat?.code ? cat.code.split(':')[1] : 'kategori';
+
+  
+  const targetUrl = `/shop/${gender}/${catName}/${catId}/${slug}/${product.id}`;
+
   return (
-    <Link to={`/product/${product.id}`} className={`w-[350px] md:w-[240px] flex flex-col group cursor-pointer bg-white transition-all duration-300 hover:shadow-sm pb-6 ${alignClass}`}>
+    
+    <Link to={targetUrl} className={`w-[350px] md:w-[240px] flex flex-col group cursor-pointer bg-white transition-all duration-300 hover:shadow-md hover:-translate-y-1 pb-6 ${alignClass}`}>
       
       {/* 1. GÖRSEL ALANI */}
       <div className="w-full h-[430px] md:h-[300px] overflow-hidden mb-6 bg-[#FAFAFA]">
@@ -31,7 +50,7 @@ export default function ProductCard({ product, textAlign = "center" }) {
           {product.title}
         </h4>
 
-        <p className="text-[14px] font-bold text-[#737373] mb-2">
+        <p className="text-[14px] font-bold text-[#737373] mb-2 line-clamp-1">
           {product.department}
         </p>
 
