@@ -10,6 +10,7 @@ import robinhoodLogo from '../assets/client-logos/robinhood.png';
 import awsLogo from '../assets/client-logos/aws.png';
 import redditLogo from '../assets/client-logos/reddit.png';
 import videoImage from '../assets/video-image.png';
+import aboutImage from '../assets/aboutus.png';
 
 export default function AboutPage() {
   return (
@@ -46,7 +47,7 @@ export default function AboutPage() {
 
           {/* Ana Görsel */}
           <img 
-            src="src/assets/aboutus.png"
+            src={aboutImage}
             alt="About Us Hero" 
             className="relative z-20 w-full max-w-[350px] md:max-w-[450px] object-contain"
           />
